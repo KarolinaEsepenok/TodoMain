@@ -13,6 +13,7 @@ type PropsType = {
     removeTask: (taskId: string) => void
     changeFilter: (value: FilterValuesType) => void
     addTask: (title: string) => void
+
 }
 
 export function Todolist(props: PropsType) {
@@ -28,49 +29,45 @@ export function Todolist(props: PropsType) {
         if (e.charCode === 13) {
             addTask()
         }
+    }
+    const tsarChangeHandler = (valueFilter: FilterValuesType) => {
+        props.changeFilter(valueFilter)
 
     }
-    const onClickAllHandler = () => {
-        props.changeFilter("all")
-    }
-    const onClickActiveHandler = () => {
-            props.changeFilter('active')
-        }
-    const onClickCompletedHandler = () => {
-        props.changeFilter('completed')
+    const onClickHandler = (tID:string) => {
+        props.removeTask(tID)
 
     }
+
     return <div>
         <h3>{props.title}</h3>
         <div>
-            <input value={title} onChange={onChangeInputHandler}
+            <input value={title}
+                   onChange={onChangeInputHandler}
                    onKeyPress={onKeyPressHandler}/>
             <button onClick={addTask}>+</button>
         </div>
         <ul>
             {
                 props.tasks.map(t => {
-                    const onClickHandler = () => {
-                        props.removeTask(t.id)
-                    }
                     return <li key={t.id}>
                         }
                         <input type="checkbox" checked={t.isDone}/>
                         <span>{t.title}</span>
-                        <button onClick={onClickHandler}>x
+                        <button onClick={()=>onClickHandler(t.id)}>x
                         </button>
                     </li>
                 })
             }
         </ul>
         <div>
-            <button onClick={onClickAllHandler}>
+            <button onClick={() => tsarChangeHandler('all')}>
                 All
             </button>
-            <button onClick={onClickActiveHandler}>
+            <button onClick={() => tsarChangeHandler('completed')}>
                 Active
             </button>
-            <button onClick={onClickCompletedHandler}>
+            <button onClick={() => tsarChangeHandler('active')}>
                 Completed
             </button>
         </div>
