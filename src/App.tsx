@@ -11,6 +11,9 @@ function App() {
         { id: v1(), title: "HTML&CSS", isDone: true },
         { id: v1(), title: "JS", isDone: true },
         { id: v1(), title: "ReactJS", isDone: false },
+        { id: v1(), title: "HTML&CSS", isDone: true },
+        { id: v1(), title: "JS", isDone: true },
+        { id: v1(), title: "ReactJS", isDone: false },
 
     ]);
 
@@ -38,6 +41,9 @@ function App() {
         setTasks(newTask)
 
     }
+    function changeTaskStatus(taskId: string, isDone: boolean){
+      setTasks( tasks.map(el=>el.id===taskId ? {...el,isDone:isDone} : el))
+    }
 
     return (
         <div className="App">
@@ -45,7 +51,9 @@ function App() {
                       tasks={tasksForTodolist}
                       removeTask={removeTask}
                       changeFilter={changeFilter}
-            addTask={addTask}/>
+            addTask={addTask}
+            changeTaskStatus={changeTaskStatus}
+            filter={filter}/>
         </div>
     );
 }
