@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
@@ -8,7 +8,7 @@ import {Menu} from "@material-ui/icons";
 
 
 export type FilterValuesType = "all" | "active" | "completed";
-type TodolistsType = {
+export type TodolistsType = {
     id: string,
     title: string,
     filter: FilterValuesType
@@ -48,6 +48,7 @@ export function App() {
     function removeTodolist(todolistId: string) {
         setTodolists(todolists.filter(el => el.id !== todolistId))
         delete tasks[todolistId]
+       // setTasks({...tasks})
     }
 
     function changeTodolistTitle(id: string, newTitle: string) {
