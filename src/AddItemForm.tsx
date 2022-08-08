@@ -45,6 +45,7 @@ export function AddItemForm(props: AddItemFormPropsType) {
             />
             <IconButton onClick={addItem}  color={'primary'}>
                 <ControlPointIcon/>
+
             </IconButton>
             {/*} {error && <div className="error-message">{error}</div>}*/}
         </div>
