@@ -39,25 +39,34 @@ function App() {
     });
 
 
-    function removeTask(taskId: string, todolistId: string) {
-       // setTasks({...tasks,[todolistId]:tasks[todolistId].filter(el=>el.id !== taskId)})
+    function removeTask(id: string, todolistId: string) {
+        //достанем нужный массив по todolistId:
         let todolistTasks = tasks[todolistId];
-        tasks[todolistId] = todolistTasks.filter(t => t.id !== taskId);
+        // перезапишем в этом объекте массив для нужного тудулиста отфилтрованным массивом:
+        tasks[todolistId] = todolistTasks.filter(t => t.id != id);
+        // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
         setTasks({...tasks});
     }
+
     function addTask(title: string, todolistId: string) {
         let task = {id: v1(), title: title, isDone: false};
-      //  setTasks({...tasks,[todolistId]:[task,...tasks[todolistId]]})
+        //достанем нужный массив по todolistId:
         let todolistTasks = tasks[todolistId];
+        // перезапишем в этом объекте массив для нужного тудулиста копией, добавив в начало новую таску:
         tasks[todolistId] = [task, ...todolistTasks];
+        // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
         setTasks({...tasks});
     }
+
     function changeStatus(id: string, isDone: boolean, todolistId: string) {
-       // setTasks({...tasks,[todolistId]:tasks[todolistId].map(el=>el.id === id ? {...el, isDone: isDone}:el)})
+        //достанем нужный массив по todolistId:
         let todolistTasks = tasks[todolistId];
-       let task = todolistTasks.find(t => t.id === id);
+        // найдём нужную таску:
+        let task = todolistTasks.find(t => t.id === id);
+        //изменим таску, если она нашлась
         if (task) {
-          task.isDone = isDone;
+            task.isDone = isDone;
+            // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
             setTasks({...tasks});
         }
     }
@@ -74,6 +83,7 @@ function App() {
             setTasks({...tasks});
         }
     }
+
 
     function changeFilter(value: FilterValuesType, todolistId: string) {
         let todolist = todolists.find(tl => tl.id === todolistId);
