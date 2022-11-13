@@ -8,26 +8,26 @@ const settings={
     }
 }
 
-export type TodolistType={
+export type TasksType={
     id:string
     title:string
     addedData: string
     order: number
 }
 export const todolistsAPI={
-    getTodolists(){
-       const promise = axios.get<Array<TodolistType>>("https://social-network.samuraijs.com/api/1.1/todo-lists", settings)
+    getTasks(){
+        const promise = axios.get<Array<TasksType>>("https://social-network.samuraijs.com/api/1.1/todo-lists", settings)
         return promise
     },
-    createTodolist(title: string){
-       const promise = axios.post("https://social-network.samuraijs.com/api/1.1/todo-lists",{ title: title}, settings)
+    createTasks(title: string){
+        const promise = axios.post("https://social-network.samuraijs.com/api/1.1/todo-lists",{ title: title}, settings)
         return promise
     },
-    deleteTodolist(id:string){
+    deleteTasks(id:string){
         const promise =  axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, settings)
         return promise
     },
-    updateTodolist(id:string, title:string){
+    updateTasks(id:string, title:string){
         const promise =  axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`,{title:title}, settings)
         return promise
     }
