@@ -69,7 +69,6 @@ export const todolistsAPI = {
     },
     getTasks(todolistId: string) {
         return instance.get<GetTaskResponse>(`todo-lists/${todolistId}/tasks`)
-
     },
     deleteTask(todolistId:string,taskId:string){
         return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`)
