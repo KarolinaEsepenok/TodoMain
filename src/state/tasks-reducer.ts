@@ -1,7 +1,11 @@
 import { TasksStateType } from '../App';
 import { v1 } from 'uuid';
-import { AddTodolistActionType, RemoveTodolistActionType } from './todolists-reducer';
-import { TaskPriorities, TaskStatuses, TaskType } from '../api/todolists-api'
+import {AddTodolistActionType, RemoveTodolistActionType} from './todolists-reducer';
+import {TaskPriorities, TaskStatuses, TaskType, TodolistType} from '../api/todolists-api'
+import {ActionsType, AppRootStateType} from "./store";
+import {Dispatch} from "redux";
+import {ThunkDispatch} from "redux-thunk";
+import {todolistsAPI} from "../api/todolists-api";
 
 export type RemoveTaskActionType = {
     type: 'REMOVE-TASK',
@@ -28,12 +32,21 @@ export type ChangeTaskTitleActionType = {
     taskId: string
     title: string
 }
+export type SetTodolistsActionType = {
+    type: 'SET-TODOLISTS'
+    todolists: Array<TodolistType>
+}
+export type SetTasksActionType = {
+    type: 'SET-TASKS'
+    tasks: Array<TaskType>
+    todolistId: string
+}
 
-type ActionsType = RemoveTaskActionType | AddTaskActionType
+export type ActionsTasksType = RemoveTaskActionType | AddTaskActionType
     | ChangeTaskStatusActionType
     | ChangeTaskTitleActionType
     | AddTodolistActionType
-    | RemoveTodolistActionType
+    | RemoveTodolistActionType | SetTodolistsActionType |SetTasksActionType
 
 const initialState: TasksStateType = {
     /*"todolistId1": [
@@ -106,6 +119,20 @@ export const tasksReducer = (state: TasksStateType = initialState, action: Actio
             delete copyState[action.id];
             return copyState;
         }
+        case 'SET-TODOLISTS': {
+            const stateCopy = {...state}
+            action.todolists.forEach((tl) => {
+                stateCopy[tl.id] = []
+            })
+            return stateCopy;
+        }
+        case 'SET-TASKS': {
+            const stateCopy = {...state}
+            stateCopy[action.todolistId] = action.tasks
+            return stateCopy
+        }
+
+
         default:
             return state;
     }
@@ -123,4 +150,16 @@ export const changeTaskStatusAC = (taskId: string, status: TaskStatuses, todolis
 export const changeTaskTitleAC = (taskId: string, title: string, todolistId: string): ChangeTaskTitleActionType => {
     return {type: 'CHANGE-TASK-TITLE', title, todolistId, taskId}
 }
+export const setTasksAC=(tasks:Array<TaskType>, todolistId:string): SetTasksActionType=>{
+    return {type:'SET-TASKS', tasks, todolistId}
+}
+export const fetchTasksTC = (todolistId: string) =>{
+    return (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>) => {
+
+    todolistsAPI.getTasks(todolistId)
+        .then((res) => {
+            const tasks = res.data.items
+            dispatch(setTasksAC(tasks, todolistId))
+        })}
+};
 
