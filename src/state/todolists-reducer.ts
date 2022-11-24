@@ -110,12 +110,4 @@ export const fetchTodolistsTC=()=>{
             })
     }
 }
-export const fetchTodolistsTC=()=>{
-    return (dispatch: ThunkDispatch<AppRootStateType, unknown, ActionsType>)=>{
-        todolistsAPI.getTodolists()
-            .then((res)=>{
-                dispatch(setTodolistsAC(res.data))
-            })
-    }
-}
 
