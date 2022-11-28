@@ -121,11 +121,11 @@ export const addTodolistTC=(title:string)=>{
     }
 }
 
-export const changeTodolistTitleTC=(title:string)=>{
+export const changeTodolistTitleTC=(id:string,title:string)=>{
     return (dispatch: Dispatch)=>{
-        todolistsAPI.createTodolist(title)
+        todolistsAPI.updateTodolist(id, title)
             .then((res)=>{
-                dispatch(addTodolistAC(res.data.data.item))
+                dispatch(changeTodolistTitleAC(id, title))
             })
     }
 }
