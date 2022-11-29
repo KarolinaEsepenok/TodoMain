@@ -28,6 +28,7 @@ export type ChangeTaskStatusActionType = {
     todolistId: string
     taskId: string
     status: TaskStatuses
+    model:UpdateDomainTaskModelType
 }
 
 export type ChangeTaskTitleActionType = {
@@ -142,8 +143,8 @@ export const removeTaskAC = (todolistId: string, taskId: string): RemoveTaskActi
 export const addTaskAC = (task: TaskType): AddTaskActionType => {
     return {type: 'ADD-TASK', task}
 }
-export const changeTaskStatusAC = (taskId: string, status: TaskStatuses, todolistId: string): ChangeTaskStatusActionType => {
-    return {type: 'CHANGE-TASK-STATUS', status, todolistId, taskId}
+export const updateTaskAC = (taskId: string, model:UpdateDomainTaskModelType, todolistId: string): ChangeTaskStatusActionType => {
+    return {type: 'CHANGE-TASK-STATUS', model, todolistId, taskId}
 }
 export const changeTaskTitleAC = (taskId: string, title: string, todolistId: string): ChangeTaskTitleActionType => {
     return {type: 'CHANGE-TASK-TITLE', title, todolistId, taskId}
@@ -183,23 +184,33 @@ export const addTaskTC = (todolistId: string, title: string) => {
 
     }
 }
-export const changeTaskStatusTC = (taskId: string, status: TaskStatuses, todolistId: string) => {
+
+export  type UpdateDomainTaskModelType={
+    description?: string
+    title?: string
+    status?: number
+    priority?: number
+    startDate?: string
+    deadline?: string
+}
+export const updateTaskTC = (taskId: string, domainModel:UpdateDomainTaskModelType, todolistId: string) => {
     return (dispatch: Dispatch, getState: () => AppRootStateType) => {
         const state = getState();
         const task = state.tasks[todolistId].find(t => t.id === taskId);
         if (!task) {
             return;
         }
-        const model: UpdateTaskModelType = {
+        const apiModel: UpdateTaskModelType = {
             description: task.description,
             deadline: task.deadline,
             priority: task.priority,
             startDate: task.startDate,
             title: task.title,
-            status: status
+            status: task.status,
+        ...domainModel
         }
 
-        todolistsAPI.updateTask(todolistId, taskId, model)
+        todolistsAPI.updateTask(todolistId, taskId, apiModel)
             .then((res) => {
                 dispatch(changeTaskStatusAC(taskId, status, todolistId))
             })

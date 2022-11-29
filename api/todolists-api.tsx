@@ -34,7 +34,7 @@ export type TaskType = {
     order: number
     addedDate: string
 }
-export  type UpdateTaskType={
+export  type UpdateTaskModelType={
     description: string
     title: string
     status: number
