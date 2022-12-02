@@ -13,9 +13,11 @@ import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import { Menu } from '@mui/icons-material';
 import LinearProgress from "@mui/material/LinearProgress";
+import {useAppSelector} from "./store";
 
 
 function App() {
+    const status = useAppSelector((state)=>state.app.status)
 
     return (
         <div className="App">
@@ -30,7 +32,7 @@ function App() {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
-            <LinearProgress color="inherit" />
+            {status === 'loading' && <LinearProgress color="inherit" />}
             <Container fixed>
                 <TodolistsList/>
             </Container>
