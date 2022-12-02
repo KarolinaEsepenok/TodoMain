@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { Menu } from '@mui/icons-material';
 import LinearProgress from "@mui/material/LinearProgress";
 import {useAppSelector} from "./store";
+import {ErrorSnackbar} from "../components/SnackBar/ErrorSnackbar";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
 
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
